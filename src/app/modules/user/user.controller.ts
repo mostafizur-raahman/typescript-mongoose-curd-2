@@ -146,7 +146,6 @@ const getUserByIdAndUpdate = async (req: Request, res: Response) => {
 const deleteUSerById = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
-        console.log(userId);
 
         if (!userId) {
             return res.status(400).json({
@@ -184,10 +183,49 @@ const deleteUSerById = async (req: Request, res: Response) => {
         });
     }
 };
+const createOrderForUser = async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.params;
+        const orderData = req.body;
+
+        const result = await UserServices.createOrderForUserInDB(
+            userId,
+            orderData
+        );
+
+        if (result) {
+            return res.status(200).json({
+                success: true,
+                message: "Order created successfully!",
+                data: result,
+            });
+        } else {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+                error: {
+                    code: 404,
+                    description: "User not found!",
+                },
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+            error: {
+                code: 500,
+                description: "Internal Server Error",
+            },
+        });
+    }
+};
+
 export const UserControllers = {
     creatUser,
     getAllUsers,
     getUserById,
     getUserByIdAndUpdate,
     deleteUSerById,
+    createOrderForUser,
 };

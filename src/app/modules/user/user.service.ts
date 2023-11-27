@@ -1,5 +1,5 @@
 import { UserModel } from "../user.model";
-import { User } from "./user.interface";
+import { Order, User } from "./user.interface";
 const createUserIntoDB = async (user: User) => {
     const result = await UserModel.create(user);
     return result;
@@ -36,10 +36,25 @@ const getUserByIdAndUpdateFromDB = async (
     }
 };
 
+const createOrderForUserInDB = async (userId: string, orderData: Order) => {
+    try {
+        const result = await UserModel.findOneAndUpdate(
+            { userId: userId },
+            { $push: { orders: orderData } },
+            { new: true }
+        );
+
+        return result;
+    } catch (error: any) {
+        throw new Error(`Failed to create order for user: ${error.message}`);
+    }
+};
+
 export const UserServices = {
     createUserIntoDB,
     getAllUsersFromDB,
     getUSerByIdFromDB,
     getUserByIdAndUpdateFromDB,
     deleteUSerByIdFromDB,
+    createOrderForUserInDB,
 };
