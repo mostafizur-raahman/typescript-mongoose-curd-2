@@ -1,4 +1,5 @@
 import Joi from "joi";
+/// for joi validations
 export const joiStudentValidator = Joi.object({
     userId: Joi.number().required(),
     username: Joi.string().max(20).required(),

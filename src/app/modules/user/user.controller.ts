@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { UserServices } from "./user.service";
 import bcrypt from "bcrypt";
 import { joiStudentValidator } from "./user.validation";
+// create user
 const creatUser = async (req: Request, res: Response) => {
     try {
         // creating schema validation using joi
@@ -56,7 +57,7 @@ const creatUser = async (req: Request, res: Response) => {
         });
     }
 };
-
+// get all the users
 const getAllUsers = async (req: Request, res: Response) => {
     try {
         const result = await UserServices.getAllUsersFromDB();
@@ -83,6 +84,7 @@ const getAllUsers = async (req: Request, res: Response) => {
         });
     }
 };
+// get user by id
 const getUserById = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
@@ -105,6 +107,7 @@ const getUserById = async (req: Request, res: Response) => {
         });
     }
 };
+// update user
 const getUserByIdAndUpdate = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
@@ -143,6 +146,7 @@ const getUserByIdAndUpdate = async (req: Request, res: Response) => {
         });
     }
 };
+// deletd user from database
 const deleteUSerById = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
@@ -183,6 +187,7 @@ const deleteUSerById = async (req: Request, res: Response) => {
         });
     }
 };
+/// create a new new orders
 const createNewOrderForUser = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
@@ -220,6 +225,7 @@ const createNewOrderForUser = async (req: Request, res: Response) => {
         });
     }
 };
+// get users orders
 const getOrdersForUser = async (req: Request, res: Response) => {
     try {
         const userId = req.params.userId;
@@ -253,6 +259,7 @@ const getOrdersForUser = async (req: Request, res: Response) => {
         });
     }
 };
+// calculate the price for user
 const calculateTotalPriceForUser = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
