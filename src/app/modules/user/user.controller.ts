@@ -1,21 +1,11 @@
 import { Request, Response } from "express";
 import { UserServices } from "./user.service";
 import bcrypt from "bcrypt";
+
 const creatUser = async (req: Request, res: Response) => {
     try {
         const user = req.body;
-
-        // // will call service func to create
-        // const result = await UserServices.createUserIntoDB(user);
-        // // send response
-        // res.status(200).json({
-        //     success: true,
-        //     message: "User created successfully!",
-        //     data: result,
-        // });
         const hashedPassword = await bcrypt.hash(user.password, 12);
-
-        // Replace the user's plain password with the hashed password
         const userWithHashedPassword = {
             ...user,
             password: hashedPassword,
@@ -49,6 +39,30 @@ const creatUser = async (req: Request, res: Response) => {
     }
 };
 
+const getAllUsers = async (req: Request, res: Response) => {
+    try {
+        const result = await UserServices.getAllUsersFromDB();
+        const responseData = result.map((user) => ({
+            username: user.username,
+            fullName: user.fullName,
+            age: user.age,
+            email: user.email,
+            address: user.address,
+        }));
+        res.status(200).json({
+            success: true,
+            message: "Users fetched successfully!",
+            data: responseData,
+        });
+    } catch (error) {
+        res.status(404).json({
+            success: false,
+            message: "No Users were found!",
+        });
+    }
+};
+
 export const UserControllers = {
     creatUser,
+    getAllUsers,
 };
