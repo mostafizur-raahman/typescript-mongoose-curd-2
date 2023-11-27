@@ -183,12 +183,12 @@ const deleteUSerById = async (req: Request, res: Response) => {
         });
     }
 };
-const createOrderForUser = async (req: Request, res: Response) => {
+const createNewOrderForUser = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
         const orderData = req.body;
 
-        const result = await UserServices.createOrderForUserInDB(
+        const result = await UserServices.createNewOrderForUserInDB(
             userId,
             orderData
         );
@@ -197,7 +197,7 @@ const createOrderForUser = async (req: Request, res: Response) => {
             return res.status(200).json({
                 success: true,
                 message: "Order created successfully!",
-                data: result,
+                data: null,
             });
         } else {
             return res.status(404).json({
@@ -227,5 +227,5 @@ export const UserControllers = {
     getUserById,
     getUserByIdAndUpdate,
     deleteUSerById,
-    createOrderForUser,
+    createNewOrderForUser,
 };

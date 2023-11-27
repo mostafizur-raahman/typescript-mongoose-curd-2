@@ -36,7 +36,7 @@ const getUserByIdAndUpdateFromDB = async (
     }
 };
 
-const createOrderForUserInDB = async (userId: string, orderData: Order) => {
+const createNewOrderForUserInDB = async (userId: string, orderData: Order) => {
     try {
         const result = await UserModel.findOneAndUpdate(
             { userId: userId },
@@ -56,5 +56,5 @@ export const UserServices = {
     getUSerByIdFromDB,
     getUserByIdAndUpdateFromDB,
     deleteUSerByIdFromDB,
-    createOrderForUserInDB,
+    createNewOrderForUserInDB,
 };
