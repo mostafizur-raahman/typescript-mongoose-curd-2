@@ -1,10 +1,24 @@
 import { Request, Response } from "express";
 import { UserServices } from "./user.service";
 import bcrypt from "bcrypt";
-
+import { joiStudentValidator } from "./user.validation";
 const creatUser = async (req: Request, res: Response) => {
     try {
+        // creating schema validation using joi
         const user = req.body;
+
+        const { error } = joiStudentValidator.validate(user);
+
+        if (error) {
+            res.status(404).json({
+                success: false,
+                error: {
+                    code: 404,
+                    error: error.details,
+                },
+            });
+        }
+
         const hashedPassword = await bcrypt.hash(user.password, 12);
         const userWithHashedPassword = {
             ...user,
