@@ -57,7 +57,25 @@ const getOrdersForUserFromDB = async (userId: string) => {
         throw new Error(`Failed to get orders for user: ${error.message}`);
     }
 };
+const calculateTotalPriceForUserFromDB = async (userId: string) => {
+    try {
+        const user = await UserModel.findOne({ userId: userId });
 
+        if (user) {
+            const totalPrice = user.orders.reduce(
+                (sum, order: Order) => sum + order.price * order.quantity,
+                0
+            );
+            return totalPrice;
+        } else {
+            return null;
+        }
+    } catch (error: any) {
+        throw new Error(
+            `Failed to calculate total price for user: ${error.message}`
+        );
+    }
+};
 export const UserServices = {
     createUserIntoDB,
     getAllUsersFromDB,
@@ -66,4 +84,5 @@ export const UserServices = {
     deleteUSerByIdFromDB,
     createNewOrderForUserInDB,
     getOrdersForUserFromDB,
+    calculateTotalPriceForUserFromDB,
 };
