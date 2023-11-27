@@ -49,6 +49,14 @@ const createNewOrderForUserInDB = async (userId: string, orderData: Order) => {
         throw new Error(`Failed to create order for user: ${error.message}`);
     }
 };
+const getOrdersForUserFromDB = async (userId: string) => {
+    try {
+        const user = await UserModel.findOne({ userId: userId });
+        return user ? user.orders : null;
+    } catch (error: any) {
+        throw new Error(`Failed to get orders for user: ${error.message}`);
+    }
+};
 
 export const UserServices = {
     createUserIntoDB,
@@ -57,4 +65,5 @@ export const UserServices = {
     getUserByIdAndUpdateFromDB,
     deleteUSerByIdFromDB,
     createNewOrderForUserInDB,
+    getOrdersForUserFromDB,
 };
